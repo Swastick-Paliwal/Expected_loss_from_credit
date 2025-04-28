@@ -1,0 +1,53 @@
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Sample Toy Dataset
+data = pd.DataFrame({
+    'credit_score': [700, 600, 550, 720, 580, 630, 660, 540],
+    'income': [5000, 3500, 3000, 6000, 2800, 3200, 4000, 2600],
+    'loan_amount': [2000, 2500, 3000, 1800, 3200, 2400, 2100, 3500],
+    'default': [0, 1, 1, 0, 1, 1, 0, 1],
+    'default_amount': [0, 1500, 2000, 0, 2200, 1200, 0, 3000]
+})
+
+X = data[['credit_score', 'income', 'loan_amount']]
+y_class = data['default']
+y_reg = data['default_amount']
+
+# Train-Test Split with y_reg included
+X_train, X_test, y_class_train, y_class_test, y_reg_train, y_reg_test = train_test_split(
+    X, y_class, y_reg, test_size=0.25, random_state=42
+)
+
+# Reset indices to align for boolean indexing
+X_train = X_train.reset_index(drop=True)
+y_class_train = y_class_train.reset_index(drop=True)
+y_reg_train = y_reg_train.reset_index(drop=True)
+X_test = X_test.reset_index(drop=True)
+
+# Classification Model
+clf = LogisticRegression()
+clf.fit(X_train, y_class_train)
+p_default = clf.predict_proba(X_test)[:, 1]
+
+# Regression Model on Defaulters Only
+defaulter_mask = y_class_train == 1
+X_reg_train = X_train[defaulter_mask]
+y_reg_train_filtered = y_reg_train[defaulter_mask]
+reg = LinearRegression()
+reg.fit(X_reg_train, y_reg_train_filtered)
+
+# Predict Default Amount
+loss_amount = reg.predict(X_test)
+
+# Expected Loss
+expected_loss = p_default * loss_amount
+
+# Results Table
+results = X_test.copy()
+results['P(Default)'] = p_default.round(2)
+results['Predicted Loss Amount'] = loss_amount.round(2)
+results['Expected Loss'] = expected_loss.round(2)
+print(results)
