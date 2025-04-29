@@ -51,3 +51,5 @@ results['P(Default)'] = p_default.round(2)
 results['Predicted Loss Amount'] = loss_amount.round(2)
 results['Expected Loss'] = expected_loss.round(2)
 print(results)
+
+print("Python why? C is so much better")
