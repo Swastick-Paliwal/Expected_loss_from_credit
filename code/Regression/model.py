@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+import joblib
 
 # Read the data
 df = pd.read_csv('data/filtered_defaulters.csv')
@@ -42,3 +43,8 @@ feature_importance = pd.DataFrame({
 })
 print("\nFeature Importance:")
 print(feature_importance.sort_values(by='Coefficient', key=abs, ascending=False))
+
+# Save the model and feature importance
+print("\nSaving model...")
+joblib.dump(model, 'regression_model.joblib')
+print("Model and feature importance saved successfully!")

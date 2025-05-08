@@ -75,9 +75,7 @@ print(classification_report(y_holdout, holdout_preds))
 print("\nSample probabilities for first 5 examples (Holdout set):")
 print("Class 0 prob | Class 1 prob")
 # Save probabilities to CSV and display first 10 rows
-probs_df = pd.DataFrame(holdout_probs, columns=['Class_0_Prob', 'Class_1_Prob'])
-probs_df['Actual_Class'] = y_holdout.values
-probs_df.to_csv('data/holdout_probabilities.csv', index=False)
+pd.DataFrame(holdout_probs, columns=['Class_0_Prob', 'Class_1_Prob']).to_csv('holdout_probabilities.csv', index=False)
 print(holdout_probs[:10])
 
 import joblib
