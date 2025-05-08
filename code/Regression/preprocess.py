@@ -1,4 +1,5 @@
 import pandas as pd
+from config import features_to_keep
 
 # Remove or comment out the following line to avoid memory error
 # df = pd.read_csv('data/accepted_2007_to_2018Q4.csv')
@@ -8,7 +9,7 @@ defaulters = pd.DataFrame()
 
 # Process the data in chunks
 chunk_size = 10000
-for chunk in pd.read_csv('data/accepted_2007_to_2018Q4.csv', chunksize=chunk_size, low_memory=False):
+for chunk in pd.read_csv('data/accepted_2007_to_2018Q4.csv', chunksize=chunk_size, low_memory=False, usecols=features_to_keep):
     # Filter rows where debt_settlement_flag is 'Y'
     chunk_defaulters = chunk[chunk['debt_settlement_flag'] == 'Y']
     
