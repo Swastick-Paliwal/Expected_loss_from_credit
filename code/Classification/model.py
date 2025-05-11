@@ -52,7 +52,7 @@ X_holdout_scaled = scaler.transform(X_holdout)
 
 # Initialize and train Random Forest
 print("Training Random Forest model...")
-rf_model = RandomForestClassifier(n_estimators=500, random_state=42)
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 rf_model.fit(X_train_scaled, y_train_resampled)
 
 # Evaluation
@@ -79,7 +79,7 @@ pd.DataFrame(holdout_probs, columns=['Class_0_Prob', 'Class_1_Prob']).to_csv('ho
 print(holdout_probs[:10])
 
 import joblib
-joblib.dump(rf_model, 'random_forest_model.joblib')
+joblib.dump(rf_model, 'data/random_forest_model.joblib')
 print("Model saved successfully!")
 
 # Create confusion matrix for holdout set

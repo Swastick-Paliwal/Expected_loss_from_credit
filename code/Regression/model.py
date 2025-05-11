@@ -46,5 +46,5 @@ print(feature_importance.sort_values(by='Coefficient', key=abs, ascending=False)
 
 # Save the model and feature importance
 print("\nSaving model...")
-joblib.dump(model, 'regression_model.joblib')
+joblib.dump(model, 'data/regression_model.joblib')
 print("Model and feature importance saved successfully!")
